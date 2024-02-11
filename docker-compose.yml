@@ -1,0 +1,70 @@
+version: '3.1'
+
+networks:
+  app-tier:
+    driver: bridge
+
+services:
+  db:
+    image: mariadb
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: zapping_password
+      MYSQL_DATABASE: zapping_test
+      MARIADB_USER: zapping_user
+      MARIADB_PASSWORD: zapping_password
+    volumes:
+      - ./data:/var/lib/mysql
+    ports:
+      - 3306:3306
+    networks:
+      - app-tier
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+
+  backend:
+    image: rodrigocaya/backend-zapping
+    restart: always
+    ports:
+      - 3001:3001
+    environment:
+      JWT_SECRET: eyJhbGciOiJIUzI1NiJ9.eyJSb2xlIjoiQWRtaW4iLCJJc3N1ZXIiOiJJc3N1ZXIiLCJVc2VybmFtZSI6IkphdmFJblVzZSIsImV4cCI6MTcwNzM1MDQ0MywiaWF0IjoxNzA3MzUwNDQzfQ.-YTWFILlJ62hdlZq-VSUXDQjsE-WGqUaobsQ8KiVZWw
+      PORT: 3001
+      DB_HOST: db
+      DB_USER: root
+      DB_PASSWORD: zapping_password
+      DB_NAME: zapping_test
+      MARIADB_ROOT_PASSWORD: zapping_password
+    networks:
+      - app-tier
+    depends_on:
+      - db
+
+  video:
+    image: rodrigocaya/hls-zapping
+    restart: always
+    ports:
+      - 8000:8000
+    environment:
+      JWT_SECRET: eyJhbGciOiJIUzI1NiJ9.eyJSb2xlIjoiQWRtaW4iLCJJc3N1ZXIiOiJJc3N1ZXIiLCJVc2VybmFtZSI6IkphdmFJblVzZSIsImV4cCI6MTcwNzM1MDQ0MywiaWF0IjoxNzA3MzUwNDQzfQ.-YTWFILlJ62hdlZq-VSUXDQjsE-WGqUaobsQ8KiVZWw
+      PORT: 8000
+
+  frontend:
+    image: rodrigocaya/frontend-zapping
+    restart: always
+    ports:
+      - 3000:3000
+    environment:
+      REACT_APP_API_URL: http://localhost:3001
+      REACT_APP_VIDEO_URL: http://localhost:8000
+    depends_on:
+      - backend
+      - video
+
+volumes:
+  dbvolume:
+    

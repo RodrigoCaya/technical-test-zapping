@@ -1,0 +1,12 @@
+.video-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.video-info {
+  display: flex;
+  margin-top: 5rem;
+  justify-content: center;
+}

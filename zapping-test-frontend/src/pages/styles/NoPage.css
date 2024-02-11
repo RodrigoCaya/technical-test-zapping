@@ -1,0 +1,32 @@
+.no-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f5f5f5;
+}
+
+.no-page-content {
+  text-align: center;
+}
+
+.no-page-content h1 {
+  font-size: 6em;
+  margin-bottom: 0.5em;
+}
+
+.no-page-content h2 {
+  font-size: 2em;
+  margin-bottom: 1em;
+}
+
+.no-page-content p {
+  margin-bottom: 2em;
+}
+
+.no-page-content a {
+  color: #000;
+  text-decoration: none;
+  border: 1px solid #000;
+  padding: 0.5em 1em;
+}
