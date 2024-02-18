@@ -20,6 +20,7 @@ func modifyMediaSequence(filePath string) {
 		if strings.Contains(line, "#EXT-X-MEDIA-SEQUENCE") {
 			sequence := strings.Split(line, ":")
 			sequenceNumber := sequence[1]
+			sequenceNumber = strings.TrimRight(sequenceNumber, "\r")
 			sequenceInt, err := strconv.Atoi(sequenceNumber)
 			if err != nil {
 				log.Fatal(err)
