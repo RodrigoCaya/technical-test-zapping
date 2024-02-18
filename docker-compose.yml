@@ -45,7 +45,8 @@ services:
       - db
 
   video:
-    image: rodrigocaya/hls-zapping
+    # image: rodrigocaya/hls-zapping-node
+    image: rodrigocaya/hls-zapping-go
     restart: always
     ports:
       - 8000:8000
